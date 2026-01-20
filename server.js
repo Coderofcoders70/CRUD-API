@@ -5,7 +5,7 @@ const app = express();
 // Use the data from model 
 const data = {
     employees: require('./model/employees.json'),
-    setEmployee: function (data) { this.employees = data; }
+    setEmployees: function (data) { this.employees = data; }
 }
 
 // cors
@@ -16,12 +16,12 @@ app.use(express.json());
 
 // routes
 // GET method:-
-app.get('/', (req, res) => {
+app.get('/employees', (req, res) => {
     res.json(data.employees);
 });
 
 // POST method:-
-app.post('/', (req, res) => {
+app.post('/employees', (req, res) => {
     const newEmployee = {
         id: data.employees[data.employees.length - 1].id + 1 || 1,
         firstname: req.body.firstname,
@@ -32,15 +32,15 @@ app.post('/', (req, res) => {
         return res.status(400).json("Id not found");
     }
 
-    data.setEmployee([ ...data.employees, newEmployee ]);
+    data.setEmployees([ ...data.employees, newEmployee ]);
     res.status(201).json(data.employees);
 });
 
 // PUT method:-
-app.put('/', (req, res) => {
+app.put('/employees', (req, res) => {
     const employee = data.employees.find((emp) => emp.id === parseInt(req.body.id));
     if (!employee) {
-        return res.status(400).json(`Given Employee ${req.body.id} not found`);
+        res.status(400).json({'message': `Given Employee ${req.body.id} not found`});
     }
     if (req.body.firstname) {
         employee.firstname = req.body.firstname;
@@ -50,7 +50,18 @@ app.put('/', (req, res) => {
     }
     const filteredArray = data.employees.filter((emp) => emp.id !== parseInt(req.body.id));
     const unsortedArray = [...filteredArray, employee];
-    data.setEmployee(unsortedArray.sort((a,b) =>  a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
+    data.setEmployees(unsortedArray.sort((a,b) =>  a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
+    res.json(data.employees);
+});
+
+// DELETE method:-
+app.delete('/employees', (req, res) => {
+    const employee = data.employees.find((emp) => emp.id === parseInt(req.body.id));
+    if (!employee) {
+        res.status(400).json({'message': `Given Employee ${req.body.id} not found`});
+    }
+    const filteredArray = data.employees.filter((emp) => emp.id !== parseInt(req.body.id));
+    data.setEmployees([...filteredArray]);
     res.json(data.employees);
 });
 
