@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Coderofcoders70/CRUD-API#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "date-fns": "^4.1.0",
     "express": "^5.2.1",
     "uuid": "^13.0.0"
