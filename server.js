@@ -1,12 +1,14 @@
 const express = require('express');
+const app = express()
 const cors = require('cors');
-const app = express();
 
 // Use the data from model 
 const data = {
     employees: require('./model/employees.json'),
     setEmployees: function (data) { this.employees = data; }
 }
+
+const PORT = process.env.PORT || 3000;
 
 // cors
 app.use(cors());
@@ -15,7 +17,7 @@ app.use(cors());
 app.use(express.json());
 
 // routes
-// GET method:-
+// GET method to fetch all the employees:-
 app.get('/employees', (req, res) => {
     res.json(data.employees);
 });
@@ -29,7 +31,7 @@ app.post('/employees', (req, res) => {
     }
 
     if (!newEmployee.firstname || !newEmployee.lastname) {
-        return res.status(400).json("Id not found");
+        return res.status(400).json({"message": "Id not found"});
     }
 
     data.setEmployees([ ...data.employees, newEmployee ]);
@@ -66,6 +68,6 @@ app.delete('/employees', (req, res) => {
 });
 
 // Port
-app.listen(3000);
+app.listen(PORT);
 
 console.log("Listening at Port 3000...");
