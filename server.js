@@ -1,5 +1,5 @@
 const express = require('express');
-const app = express()
+const app = express();
 const cors = require('cors');
 
 // Use the data from model 
@@ -13,14 +13,19 @@ const PORT = process.env.PORT || 3000;
 // cors
 app.use(cors());
 
+//built-in middleware:-
+app.use(express.urlencoded({ extended: false }));
+
 // middleware
 app.use(express.json());
 
 // routes
+app.use('/employees', require('./routes/employees'));
+
 // GET method to fetch all the employees:-
-app.get('/employees', (req, res) => {
-    res.json(data.employees);
-});
+// app.get('/employees', (req, res) => {
+//     res.json(data.employees);
+// });
 
 // POST method:-
 app.post('/employees', (req, res) => {
