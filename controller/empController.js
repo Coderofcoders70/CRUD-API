@@ -23,7 +23,7 @@ const createNewEmployee = (req, res) => {
     }
 
     if (!newEmployee.firstname || !newEmployee.lastname) {
-        return res.status(400).json({"message": "Id not found"});
+        return res.status(400).json({'message': "Id not found"});
     }
 
     data.setEmployees([ ...data.employees, newEmployee ]);
