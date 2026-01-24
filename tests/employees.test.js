@@ -14,4 +14,14 @@ describe('To check the employees data', () => {
         expect(Array.isArray(res.body)).toBe(true);
     });
 
+    it('should create a new employee', async () => {
+        const newEmployee = { firstname: 'Jane', lastname: 'Doe' };
+        const res = await request(app).post('/employees').send(newEmployee);
+        expect(res.statusCode).toEqual(201);
+        
+        const lastEmployee = res.body[res.body.length - 1];
+        expect(lastEmployee).toMatchObject(newEmployee);
+        expect(lastEmployee).toHaveProperty('id');
+    });
+
 });
