@@ -31,9 +31,9 @@ const createNewEmployee = (req, res) => {
 }
 
 const updateEmployee = (req, res) => {
-    const employee = data.employees.find((emp) => emp.id === parseInt(req.body.id));
+    const employee = data.employees.find((emp) => emp.id === parseInt(req.params.id));
     if (!employee) {
-        res.status(400).json({'message': `Given Employee ${req.body.id} not found`});
+        res.status(400).json({'message': `Given Employee ${req.params.id} not found`});
     }
     if (req.body.firstname) {
         employee.firstname = req.body.firstname;
@@ -41,18 +41,18 @@ const updateEmployee = (req, res) => {
     if (req.body.lastname) {
         employee.lastname = req.body.lastname;
     }
-    const filteredArray = data.employees.filter((emp) => emp.id !== parseInt(req.body.id));
+    const filteredArray = data.employees.filter((emp) => emp.id !== parseInt(req.params.id));
     const unsortedArray = [...filteredArray, employee];
     data.setEmployees(unsortedArray.sort((a,b) =>  a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
     res.json(data.employees);
 }
 
 const deleteEmployee = (req, res) => {
-    const employee = data.employees.find((emp) => emp.id === parseInt(req.body.id));
+    const employee = data.employees.find((emp) => emp.id === parseInt(req.params.id));
     if (!employee) {
-        res.status(400).json({'message': `Given Employee ${req.body.id} not found`});
+        res.status(400).json({'message': `Given Employee ${req.params.id} not found`});
     }
-    const filteredArray = data.employees.filter((emp) => emp.id !== parseInt(req.body.id));
+    const filteredArray = data.employees.filter((emp) => emp.id !== parseInt(req.params.id));
     data.setEmployees([...filteredArray]);
     res.json(data.employees);
 }
