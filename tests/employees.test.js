@@ -36,4 +36,12 @@ describe('To check the employees data', () => {
         expect(updatedEmployee.lastname).toBe("Smith");
     });
 
+    it('should delete given employee', async () => {
+        const res = await request(app).delete(`/employees/${createdId}`);
+        expect(res.statusCode).toEqual(200);
+
+        const exists = res.body.some(person => person.id === createdId);
+        expect(exists).toBe(false);
+    });
+
 });
